@@ -87,3 +87,8 @@ docker-compose.yml
 docker-compose.override.yml
 Dockerfile
 .dockerignore
+
+# ===================================================================
+# 项目中的策略预警信号
+# ===================================================================
+strategy/private/*
