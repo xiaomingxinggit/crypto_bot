@@ -1,7 +1,7 @@
 # test/test_binance_market.py
-import time
 import sys
 import os
+import time
 
 # 确保项目根目录在 sys.path 中
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
@@ -20,7 +20,7 @@ def test_spot_market():
     logger.info("✅ 测试: 获取现货最新价格")
     price = spot.price.get_price("BTCUSDT")
     if price:
-        logger.info(f"🟢 获取成功: {price}")
+        logger.info(f"🟢 获取成功: {price.symbol} = {price.price}")
     else:
         logger.error("🔴 获取现货价格失败")
 
@@ -28,7 +28,7 @@ def test_spot_market():
     logger.info("✅ 测试: 获取现货24小时行情")
     ticker_24hr = spot.price.get_24hr_ticker("BTCUSDT")
     if ticker_24hr:
-        logger.info(f"🟢 获取成功: 价格变动 {ticker_24hr.get('priceChangePercent')}%")
+        logger.info(f"🟢 获取成功: 价格变动 {ticker_24hr.priceChangePercent}%")
     else:
         logger.error("🔴 获取24小时行情失败")
 
@@ -44,7 +44,7 @@ def test_spot_market():
     logger.info("✅ 测试: 获取现货订单簿深度")
     depth = spot.depth.get_depth("BTCUSDT", limit=5)
     if depth:
-        logger.info(f"🟢 获取成功: bids={depth.get('bids')[:2]}, asks={depth.get('asks')[:2]}")
+        logger.info(f"🟢 获取成功: bids前5={depth.bids[:5]}, asks前5={depth.asks[:5]}")
     else:
         logger.error("🔴 获取订单簿失败")
 
@@ -52,12 +52,8 @@ def test_spot_market():
     logger.info("✅ 测试: 获取现货交易对信息")
     info = spot.exchange_info.get_exchange_info("BTCUSDT")
     if info:
-        # 修正后
-        if info and 'symbols' in info and len(info['symbols']) > 0:
-            symbol_info = info['symbols'][0]
-            logger.info(f"🟢 获取成功: symbol={symbol_info.get('symbol')}, status={symbol_info.get('status')}")
-        else:
-            logger.error("🔴 获取交易对信息失败或格式异常")
+        symbols = [s['symbol'] for s in info.symbols[:3]]
+        logger.info(f"🟢 获取成功: 支持交易对 {symbols}...")
     else:
         logger.error("🔴 获取交易对信息失败")
 
@@ -73,7 +69,7 @@ def test_future_market():
     logger.info("✅ 测试: 获取期货最新价格")
     price = future.price.get_price("BTCUSDT")
     if price:
-        logger.info(f"🟢 获取成功: {price}")
+        logger.info(f"🟢 获取成功: {price.symbol} = {price.price}")
     else:
         logger.error("🔴 获取期货价格失败")
 
@@ -81,15 +77,15 @@ def test_future_market():
     logger.info("✅ 测试: 获取期货标记价格")
     mark_price = future.price.get_mark_price("BTCUSDT")
     if mark_price:
-        logger.info(f"🟢 获取成功: 标记价格={mark_price.get('markPrice')}, 资金费率={mark_price.get('lastFundingRate')}")
+        logger.info(f"🟢 获取成功: 标记价格={mark_price.markPrice}, 资金费率={mark_price.lastFundingRate}")
     else:
         logger.error("🔴 获取标记价格失败")
 
     # 测试：获取资金费率历史
     logger.info("✅ 测试: 获取资金费率历史")
-    funding_rate = future.price.get_funding_rate("BTCUSDT", limit=3)
+    funding_rate = future.price.get_funding_rate_history("BTCUSDT", limit=3)
     if funding_rate and len(funding_rate) > 0:
-        logger.info(f"🟢 获取成功: 最近资金费率={funding_rate[0].get('fundingRate')}")
+        logger.info(f"🟢 获取成功: 最近资金费率={funding_rate[0].fundingRate}")
     else:
         logger.error("🔴 获取资金费率历史失败")
 
@@ -105,7 +101,7 @@ def test_future_market():
     logger.info("✅ 测试: 获取期货订单簿深度")
     depth = future.depth.get_depth("BTCUSDT", limit=5)
     if depth:
-        logger.info(f"🟢 获取成功: bids={depth.get('bids')[:2]}, asks={depth.get('asks')[:2]}")
+        logger.info(f"🟢 获取成功: bids前5={depth.bids[:5]}, asks前5={depth.asks[:5]}")
     else:
         logger.error("🔴 获取期货订单簿失败")
 
