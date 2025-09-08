@@ -1,9 +1,9 @@
 # exchange/binance/market/future/__init__.py
-from .price import FuturePrice
-from .kline import FutureKline
-from .depth import FutureDepth
-from .trade import FutureTrade
-from .exchange_info import FutureExchangeInfo
+from .price import FuturePriceService
+from .kline import FutureKlineService
+from .depth import FutureDepthService
+from .trade import FutureTradeService
+from .exchange_info import FutureExchangeInfoService
 
 
 class FutureMarket:
@@ -12,8 +12,8 @@ class FutureMarket:
     """
 
     def __init__(self):
-        self.price = FuturePrice()
-        self.kline = FutureKline()
-        self.depth = FutureDepth()
-        self.trade = FutureTrade()
-        self.exchange_info = FutureExchangeInfo()
+        self.price = FuturePriceService()
+        self.kline = FutureKlineService()
+        self.depth = FutureDepthService()
+        self.trade = FutureTradeService()
+        self.exchange_info = FutureExchangeInfoService()

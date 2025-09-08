@@ -1,9 +1,9 @@
 # exchange/binance/market/spot/__init__.py
-from .price import SpotPrice
-from .kline import SpotKline
-from .depth import SpotDepth
-from .trade import SpotTrade
-from .exchange_info import SpotExchangeInfo
+from .price import SpotPriceService
+from .kline import SpotKlineService
+from .depth import SpotDepthService
+from .trade import SpotTradeService
+from .exchange_info import SpotExchangeInfoService
 
 
 class SpotMarket:
@@ -12,8 +12,8 @@ class SpotMarket:
     """
 
     def __init__(self):
-        self.price = SpotPrice()
-        self.kline = SpotKline()
-        self.depth = SpotDepth()
-        self.trade = SpotTrade()
-        self.exchange_info = SpotExchangeInfo()
+        self.price = SpotPriceService()
+        self.kline = SpotKlineService()
+        self.depth = SpotDepthService()
+        self.trade = SpotTradeService()
+        self.exchange_info = SpotExchangeInfoService()

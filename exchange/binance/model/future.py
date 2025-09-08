@@ -31,7 +31,8 @@ class FutureFundingRate:
     symbol: str
     fundingRate: str
     fundingTime: int
-    time: int
+    markPrice: str
+    # time: int
 
 
 @dataclass
